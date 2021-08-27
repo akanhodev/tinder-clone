@@ -1,57 +1,34 @@
 import React , {useState  , useEffect } from 'react' ;
 import TinderCard from 'react-tinder-card';
-import database from './firebase'
+import db from './firebase'
+import { getDocs, collection } from "firebase/firestore"; 
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import './TinderCards.css' ;
+//import db from './test'
 
 
 function TinderCards() {
-    const [people , setPeople] = useState([
-        {
-        //     name : "Dine INOUSSA" ,
-        //     url : "https://pbs.twimg.com/profile_images/1383754626915201033/CPWrkrhI.jpg"
-        // }, 
-        // {
-        //     name : "Bill Gates" ,
-        //     url : "https://upload.wikimedia.org/wikipedia/commons/a/af/Bill_Gates_-_Nov._8%2C_2019.jpg"
-
-        // } ,
-        // {
-        //     name : "Pr Alain CAPO-CHICHI" ,
-        //     url : "https://lechasseur.info/wp-content/uploads/2019/08/alain-capo-chichi.jpg"
-
-        // } ,
-        // {
-        //     name : "M. BARRY ABDOULAYE " ,
-        //     url : "https://avatars.githubusercontent.com/u/32708170?v=4"
-
-        // } ,
-        // {
-        //     name : "M. Viranson HOUNOUVI " ,
-        //     url : "https://pbs.twimg.com/profile_images/1337315652474957827/chng7ZYL_400x400.jpg"
-
-        // } ,
-        // {
-        //     name : "Steave Jobs " ,
-        //     url : "https://bitblogger.org/wp-content/uploads/2021/07/Steve-Jobs-first-job-app-auctioned-with-NFT-on-offer.jpg" ,
-
-        // } ,
-        // {
-        //     name : "Mark zuckeberg" ,
-        //     url : "https://i.insider.com/60c1df2b23393a00188e25da?width=1136&format=jpeg"
-
-        } ,
-    ]) ;
+    const [people , setPeople] = useState([]) ;
     // Piece of code which runs based on a condition
+    
+    const getData = async () => {
+        const querySnapshot = await getDocs(collection(db, "people"));
+        let data = [];
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data())
+        });
+        console.log(data)
+        setPeople(data);
+    }
+
     useEffect(() => {
         // c'est ici que le code s'execute ...
         
         //this will run ONCE when the component loads , and never again  
-        database.collection('people').onSnapshot(snapshot => (
-            snapshot.docs.map(doc => doc.data)
-
-        ))
-
+        getData();
     }, []) ;
+
+        console.log(db)
     // normally javascript and BAD react
     // const people = []
     // people.push("shgf" , "dine")
