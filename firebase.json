@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "tinder-site",
+    "public": "../tinder-clone",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/tinder-clone"
+      }
+    ]
+  }
+}
